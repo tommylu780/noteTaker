@@ -1,8 +1,8 @@
-let DBJSON = require('../Develop/db/db.json')
+let DBJSON = require('../db/db.json')
 const fs = require('fs');
 const path = require('path');
 const { NODATA } = require('dns');
-const filePath = __dirname + '/../Develop/db/db.json';
+const filePath = __dirname + '/../db/db.json';
 var generate = require('project-name-generator');
 
 
