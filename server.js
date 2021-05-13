@@ -1,20 +1,17 @@
 const express = require('express');
 
-// Point to route file
-const apiRoutes = require('./routes/apiRoutes');
-const htmlRoutes = require('./routes/htmlRoutes');
-
 const app = express();
 const PORT = process.env.PORT || 3001;
+//Sets up express to handle data Parsing (Body.)
 
 app.use(express.urlencoded({ extended: true }));
-
 app.use(express.json());
+app.use(express.static(__dirname + '/public'));
 
-app.use(express.static('public'));
-app.use('/api', apiRoutes);
-app.use('/', htmlRoutes);
+require('./routes/apiRoutes')(app);
+require('./routes/htmlRoutes')(app);
+
 
 app.listen(PORT, () => {
-    console.log(`API server is ready on port ${PORT}!`);
+    console.log(`Server running on port http://localhost:${PORT} `);
 })

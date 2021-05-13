@@ -1,30 +1,43 @@
-const router = require('express').Router();
-
-const saveData = require('../Develop/db/save');
-
-// GET request
-router.get('/notes', function(req, res) {
-    saveData
-        .retrieveNotes()
-        .then(notes => res.json(notes))
-        .catch(err => res.status(500).json(err));
-});
-
-// POST request
-router.post('/notes', (req, res) => {
-    saveData
-        .addNote(req.body)
-        .then((note) => res.json(note))
-        .catch(err => res.status(500).json(err));
-});
-
-// Bonus - DELETE request
-router.delete('/notes/:id', function(req, res) {
-    saveData
-        .deleteNote(req.params.id)
-        .then(() => res.json({ ok: true }))
-        .catch(err => res.status(500).json(err));
-});
+let DBJSON = require('../Develop/db/db.json')
+const fs = require('fs');
+const path = require('path');
+const { NODATA } = require('dns');
+const filePath = __dirname + '/../Develop/db/db.json';
+var generate = require('project-name-generator');
 
 
-module.exports = router;
+
+module.exports = (app) => {
+    //Api Get Request
+    app.get('/api/notes', (req, res) => {
+        res.json(DBJSON)
+    })
+
+    app.post('/api/notes', (req, res) => {
+        const randomeId = generate().dashed;
+        console.log("this is random Word :" + randomeId);
+        const NoteData = {
+            "title": req.body.title,
+            "text": req.body.text,
+            "id": randomeId
+        }
+        DBJSON.push(NoteData)
+        fs.writeFile(filePath, JSON.stringify(DBJSON), (err) => {
+            if (err) console.log(err)
+            console.log('The file has been saved!');
+            res.json(DBJSON)
+        })
+    })
+
+    app.delete('/api/notes/:id', (req, res) => {
+        console.log("new data 1 ", Data_base_JSON);
+
+        DBJSON = DBJSON.filter(i => i.id !== req.params.id)
+        console.log(DBJSON);
+        fs.writeFile(filePath, JSON.stringify(DBJSON), (err) => {
+            if (err) console.log(err)
+            console.log('The file has been saved!');
+            res.json(DBJSON)
+        })
+    })
+}

@@ -1,19 +1,16 @@
-const path = require('path');
-const router = require('express').Router();
+  const path = require('path');
 
-// This has to be on the top than the other routers
-router.get('/notes', (req, res) => {
-    res.sendFile(path.join(__dirname, '../Develop/public/notes.html'));
-});
+  module.exports = (app) => {
 
-router.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, '../Develop/public/index.html'));
-});
+      app.get("/", (req, res) => {
+          res.sendFile(path.join(__dirname, "../public/index.html"));
+      });
 
-// If no matching route is found default to home page
-router.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, '../Develop/public/index.html'));
-});
+      app.get("/notes", (req, res) => {
+          res.sendFile(path.join(__dirname, "../public/notes.html"));
 
-
-module.exports = router;
+      });
+      app.get("*", (req, res) => {
+          res.sendFile(path.join(__dirname, "../public/index.html"));
+      });
+  };
