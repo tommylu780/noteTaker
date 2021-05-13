@@ -30,7 +30,7 @@ module.exports = (app) => {
     })
 
     app.delete('/api/notes/:id', (req, res) => {
-        console.log("new data 1 ", Data_base_JSON);
+        console.log("new data 1 ", DBJSON);
 
         DBJSON = DBJSON.filter(i => i.id !== req.params.id)
         console.log(DBJSON);
